@@ -27,3 +27,11 @@ module_pyenv() {
     sysinit_append_shell_profile 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"'
     sysinit_append_shell_profile 'eval "$(pyenv init -)"'
 }
+
+module_luaenv() {
+    git clone https://github.com/cehoffman/luaenv.git ~/.luaenv
+    git clone https://github.com/cehoffman/lua-build.git ~/.luaenv/plugins/lua-build
+
+    sysinit_append_shell_profile 'export PATH="$HOME/.luaenv/bin:$PATH"'
+    sysinit_append_shell_profile 'eval "$(luaenv init -)"'
+}
