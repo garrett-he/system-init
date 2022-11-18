@@ -7,3 +7,7 @@ module_linux_python() {
 module_linux_lua() {
     sudo pacman -S lua luarocks
 }
+
+module_linux_php() {
+    sudo pacman -S php
+}
