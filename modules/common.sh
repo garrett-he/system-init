@@ -13,3 +13,9 @@ module_ohmyzsh() {
 
     sysinit_sed 's#plugins=(git)#plugins=(zsh-autosuggestions zsh-syntax-highlighting)#g' ~/.zshrc
 }
+
+module_python_packages() {
+    $SYSINIT_PYTHON_PIP install --user --break-system-packages poetry cookiecutter
+
+    sysinit_append_shell_profile 'export PATH="'$(python3 -m site --user-base)/bin':$PATH"'
+}
