@@ -35,3 +35,7 @@ module_luaenv() {
     sysinit_append_shell_profile 'export PATH="$HOME/.luaenv/bin:$PATH"'
     sysinit_append_shell_profile 'eval "$(luaenv init -)"'
 }
+
+module_nvm() {
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+}
