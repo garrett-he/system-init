@@ -3,3 +3,7 @@ module_python() {
 
     sysinit_append_shell_profile 'export PATH="$HOME/.local/bin:$PATH"'
 }
+
+module_linux_lua() {
+    sudo pacman -S lua luarocks
+}
