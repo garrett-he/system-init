@@ -28,3 +28,7 @@ module_darwin_lua() {
 
     sysinit_append_shell_profile 'export PATH="$HOME/.luarocks/bin:$PATH"'
 }
+
+module_darwin_php() {
+    $SYSINIT_DARWIN_HOMEBREW_PREFIX/bin/brew install php
+}
