@@ -19,3 +19,11 @@ module_python_packages() {
 
     sysinit_append_shell_profile 'export PATH="'$(python3 -m site --user-base)/bin':$PATH"'
 }
+
+module_pyenv() {
+    curl -s -S -L https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash
+
+    sysinit_append_shell_profile 'export PYENV_ROOT="$HOME/.pyenv"'
+    sysinit_append_shell_profile 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"'
+    sysinit_append_shell_profile 'eval "$(pyenv init -)"'
+}
