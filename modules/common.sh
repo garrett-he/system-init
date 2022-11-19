@@ -46,3 +46,17 @@ module_phpenv() {
     sysinit_append_shell_profile 'export PATH="$HOME/.phpenv/bin:$PATH"'
     sysinit_append_shell_profile 'eval "$(phpenv init -)"'
 }
+
+module_powerline-fonts() {
+    git clone https://github.com/powerline/fonts.git /tmp/powerline-fonts
+
+    cd /tmp/powerline-fonts
+
+    if [[ "$sysinit_ostype" == "cygwin" ]]; then
+        powershell -File install.ps1
+    else
+        ./install.sh
+    fi
+
+    rm -rf /tmp/powerline-fonts
+}
