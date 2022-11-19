@@ -39,3 +39,10 @@ module_luaenv() {
 module_nvm() {
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 }
+
+module_phpenv() {
+    git clone https://github.com/phpenv/phpenv.git ~/.phpenv
+    git clone https://github.com/php-build/php-build.git $HOME/.phpenv/plugins/php-build
+    sysinit_append_shell_profile 'export PATH="$HOME/.phpenv/bin:$PATH"'
+    sysinit_append_shell_profile 'eval "$(phpenv init -)"'
+}
