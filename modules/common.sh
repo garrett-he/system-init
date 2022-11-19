@@ -76,3 +76,8 @@ module_proxy() {
 
     sysinit_append_shell_profile 'source ~/.set_proxy'
 }
+
+module_misc() {
+    sysinit_append_shell_profile 'alias vi=vim'
+    sysinit_append_shell_profile 'export GPG_TTY=$(tty)'
+}
