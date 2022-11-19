@@ -60,3 +60,19 @@ module_powerline-fonts() {
 
     rm -rf /tmp/powerline-fonts
 }
+
+module_proxy() {
+    {
+        echo 'export http_proxy=http://127.0.0.1:7890'
+        echo 'export https_proxy=http://127.0.0.1:7890'
+        echo 'export all_proxy=socks5://127.0.0.1:7890'
+    } >> ~/.set_proxy
+
+    {
+        echo 'export http_proxy='
+        echo 'export https_proxy='
+        echo 'export all_proxy='
+    } >> ~/.unset_proxy
+
+    sysinit_append_shell_profile 'source ~/.set_proxy'
+}
