@@ -11,3 +11,10 @@ module_linux_lua() {
 module_linux_php() {
     sudo pacman -S php
 }
+
+module_linux_clash() {
+    sudo pacman -S clash
+
+    systemctl enable --user clash
+    systemctl start --user clash
+}
