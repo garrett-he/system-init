@@ -27,7 +27,25 @@ sysinit_prepare() {
 
     sysinit_print_debug 'Load modules for common'
     source "$module_dir"/common.sh
-    source "$module_dir/$(sysinit_ostype)".sh
+
+    local ostype=$(sysinit_ostype)
+
+    if [[ $ostype == "linux" ]]; then
+        eval $(cat /etc/*-release | grep "^ID=")
+
+        if [[ "$ID" == "manjaro" ]]; then
+            ID=arch
+        fi
+
+        local linux_module_file="$SYSINIT_ROOT/linux/${ID}.sh"
+        if [[ -f $linux_module_file ]]; then
+            source "$linux_module_file"
+        else
+            sysinit_print_warning "linux module file not found: ${linux_module_file}"
+        fi
+    else
+        source "$module_dir/$ostype".sh
+    fi
 
     # Load configurations
     source "$SYSINIT_ROOT/config/$(sysinit_ostype).conf"
