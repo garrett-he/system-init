@@ -1,5 +1,12 @@
 module_dotfiles() {
-    curl -fsSL https://raw.githubusercontent.com/garrett-he/dotfiles/main/remote-install.sh | bash
+    if [[ -z $SYSINIT_MIRROR_DOTFILES_GIT_REMOTE ]]; then
+        git clone https://github.com/garrett-he/dotfiles.git ~/.dotfiles
+    else
+        git clone $SYSINIT_MIRROR_DOTFILES_GIT_REMOTE ~/.dotfiles
+    fi
+
+    cd ~/.dotfiles
+    ./install.sh
 }
 
 module_ohmyzsh() {
