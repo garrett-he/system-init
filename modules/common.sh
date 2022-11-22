@@ -84,7 +84,11 @@ module_phpenv() {
 }
 
 module_powerline-fonts() {
-    git clone https://github.com/powerline/fonts.git /tmp/powerline-fonts
+    if [[ -z $SYSINIT_MIRROR_POWERLINE_FONTS_GIT_REMOTE ]]; then
+        git clone https://github.com/powerline/fonts.git /tmp/powerline-fonts
+    else
+        git clone $SYSINIT_MIRROR_POWERLINE_FONTS_GIT_REMOTE /tmp/powerline-fonts
+    fi
 
     cd /tmp/powerline-fonts
 
