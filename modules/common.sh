@@ -57,7 +57,11 @@ module_python_packages() {
 }
 
 module_pyenv() {
-    curl -s -S -L https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash
+    if [[ -z $SYSINIT_MIRROR_PYENV_GIT_REMOTE ]]; then
+        curl -s -S -L https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash
+    else
+        git clone $SYSINIT_MIRROR_PYENV_GIT_REMOTE ~/.pyenv
+    fi
 
     sysinit_append_shell_profile 'export PYENV_ROOT="$HOME/.pyenv"'
     sysinit_append_shell_profile 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"'
