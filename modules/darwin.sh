@@ -5,7 +5,25 @@ else
 fi
 
 module_darwin_homebrew() {
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    export HOMEBREW_API_DOMAIN=$SYSINIT_MIRROR_HOMEBREW_API_DOMAIN
+    export HOMEBREW_BOTTLE_DOMAIN=$SYSINIT_MIRROR_HOMEBREW_BOTTLE_DOMAIN
+    export HOMEBREW_BREW_GIT_REMOTE=$SYSINIT_MIRROR_HOMEBREW_BREW_GIT_REMOTE
+    export HOMEBREW_CORE_GIT_REMOTE=$SYSINIT_MIRROR_HOMEBREW_CORE_GIT_REMOTE
+    export HOMEBREW_PIP_INDEX_URL=$SYSINIT_MIRROR_PYPI_INDEX
+
+    if [[ -z $SYSINIT_MIRROR_HOMEBREW_INSTALL_GIT_REMOTE ]]; then
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    else
+        git clone "$SYSINIT_MIRROR_HOMEBREW_INSTALL_GIT_REMOTE" /tmp/brew-install
+        /bin/bash /tmp/brew-install/install.sh
+        rm -rf /tmp/brew-install
+    fi
+
+    sysinit_append_shell_profile "export HOMEBREW_API_DOMAIN=$HOMEBREW_API_DOMAIN"
+    sysinit_append_shell_profile "export HOMEBREW_BOTTLE_DOMAIN=$HOMEBREW_BOTTLE_DOMAIN"
+    sysinit_append_shell_profile "export HOMEBREW_BREW_GIT_REMOTE=$HOMEBREW_BREW_GIT_REMOTE"
+    sysinit_append_shell_profile "export HOMEBREW_CORE_GIT_REMOTE=$HOMEBREW_CORE_GIT_REMOTE"
+    sysinit_append_shell_profile "export HOMEBREW_PIP_INDEX_URL=$HOMEBREW_PIP_INDEX_URL"
 }
 
 module_darwin_homebrew_packages() {
