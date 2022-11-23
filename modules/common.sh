@@ -101,8 +101,18 @@ module_nvm() {
 }
 
 module_phpenv() {
-    git clone https://github.com/phpenv/phpenv.git ~/.phpenv
-    git clone https://github.com/php-build/php-build.git $HOME/.phpenv/plugins/php-build
+    if [[ -z $SYSINIT_MIRROR_PHPENV_GIT_REMOTE ]]; then
+        git clone https://github.com/phpenv/phpenv.git ~/.phpenv
+    else
+        git clone $SYSINIT_MIRROR_PHPENV_GIT_REMOTE ~/.phpenv
+    fi
+
+    if [[ -z $SYSINIT_MIRROR_PHP_BUILD_GIT_REMOTE ]]; then
+        git clone https://github.com/php-build/php-build.git ~/.phpenv/plugins/php-build
+    else
+        git clone $SYSINIT_MIRROR_PHP_BUILD_GIT_REMOTE ~/.phpenv/plugins/php-build
+    fi
+
     sysinit_append_shell_profile 'export PATH="$HOME/.phpenv/bin:$PATH"'
     sysinit_append_shell_profile 'eval "$(phpenv init -)"'
 }
