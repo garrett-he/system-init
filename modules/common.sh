@@ -65,8 +65,17 @@ module_pyenv() {
 }
 
 module_luaenv() {
-    git clone https://github.com/cehoffman/luaenv.git ~/.luaenv
-    git clone https://github.com/cehoffman/lua-build.git ~/.luaenv/plugins/lua-build
+    if [[ -z $SYSINIT_MIRROR_LUAENV_GIT_REMOTE ]]; then
+        git clone https://github.com/cehoffman/luaenv.git ~/.luaenv
+    else
+        git clone $SYSINIT_MIRROR_LUAENV_GIT_REMOTE ~/.luaenv
+    fi
+
+    if [[ -z $SYSINIT_MIRROR_LUA_BUILD_GIT_REMOTE ]]; then
+        git clone https://github.com/cehoffman/lua-build.git ~/.luaenv/plugins/lua-build
+    else
+        git clone $SYSINIT_MIRROR_LUA_BUILD_GIT_REMOTE ~/.luaenv/plugins/lua-build
+    fi
 
     sysinit_append_shell_profile 'export PATH="$HOME/.luaenv/bin:$PATH"'
     sysinit_append_shell_profile 'eval "$(luaenv init -)"'
