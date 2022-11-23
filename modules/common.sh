@@ -73,7 +73,18 @@ module_luaenv() {
 }
 
 module_nvm() {
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+    if [[ -z $SYSINIT_MIRROR_NVM_GIT_REMOTE ]]; then
+        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+    else
+        git clone $SYSINIT_MIRROR_NVM_GIT_REMOTE ~/.nvm
+        cd ~/.nvm
+        git checkout v0.39.4
+        source nvm.sh
+
+        sysinit_append_shell_profile 'export NVM_DIR="$HOME/.nvm"'
+        sysinit_append_shell_profile '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"'
+        sysinit_append_shell_profile '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"'
+    fi
 }
 
 module_phpenv() {
