@@ -51,6 +51,8 @@ module_python_packages() {
         $SYSINIT_PYTHON_PIP config set global.index-url $SYSINIT_MIRROR_PYPI_INDEX
     fi
 
+    $SYSINIT_PYTHON_PIP install --upgrade pip
+
     $SYSINIT_PYTHON_PIP install --user --break-system-packages poetry cookiecutter
 
     sysinit_append_shell_profile 'export PATH="'$(python3 -m site --user-base)/bin':$PATH"'
@@ -154,4 +156,5 @@ module_proxy() {
 module_misc() {
     sysinit_append_shell_profile 'alias vi=vim'
     sysinit_append_shell_profile 'export GPG_TTY=$(tty)'
+    sysinit_append_shell_profile 'export PATH="$HOME/.local/bin:$PATH"'
 }
