@@ -49,7 +49,7 @@ module_cygwin_lua() {
     tar xf luarocks-3.9.2.tar.gz
     cd luarocks-3.9.2
 
-    ./configure
+    ./configure --with-lua-include=/usr/include/lua5.3
     make
     make install
 
