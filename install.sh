@@ -44,7 +44,7 @@ sysinit_prepare() {
             ID=arch
         fi
 
-        local linux_module_file="$SYSINIT_ROOT/linux/${ID}.sh"
+        local linux_module_file="$SYSINIT_ROOT/modules/linux/${ID}.sh"
         if [[ -f $linux_module_file ]]; then
             source "$linux_module_file"
         else
