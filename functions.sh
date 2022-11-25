@@ -122,3 +122,15 @@ sysinit_install_module() {
 
     return 0
 }
+
+sysinit_git_clone() {
+    local git_remote_url
+
+    if [[ -z $3 ]] || [[ -z ${!3} ]]; then
+        git_remote_url=$1
+    else
+        git_remote_url=${!3}
+    fi
+
+    echo git clone "$git_remote_url" "$2"
+}
