@@ -6,6 +6,7 @@ module_linux_python() {
 
 module_linux_lua() {
     sudo pacman -S lua luarocks
+    sysinit_append_shell_profile 'export PATH="$HOME/.luarocks/bin:$PATH"'
 }
 
 module_linux_php() {
