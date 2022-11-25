@@ -64,7 +64,8 @@ module_pyenv() {
     else
         git clone $SYSINIT_MIRROR_PYENV_GIT_REMOTE ~/.pyenv
     fi
-
+    sysinit_append_shell_profiles
+    sysinit_append_shell_profiles '# pyenv'
     sysinit_append_shell_profiles 'export PYENV_ROOT="$HOME/.pyenv"'
     sysinit_append_shell_profiles 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"'
     sysinit_append_shell_profiles 'eval "$(pyenv init -)"'
@@ -83,6 +84,8 @@ module_luaenv() {
         git clone $SYSINIT_MIRROR_LUA_BUILD_GIT_REMOTE ~/.luaenv/plugins/lua-build
     fi
 
+    sysinit_append_shell_profiles
+    sysinit_append_shell_profiles '# luaenv'
     sysinit_append_shell_profiles 'export PATH="$HOME/.luaenv/bin:$PATH"'
     sysinit_append_shell_profiles 'eval "$(luaenv init -)"'
 }
@@ -97,6 +100,8 @@ module_nvm() {
         source nvm.sh
     fi
 
+    sysinit_append_shell_profiles
+    sysinit_append_shell_profiles '# nvm'
     sysinit_append_shell_profiles 'export NVM_DIR="$HOME/.nvm"'
     sysinit_append_shell_profiles '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"'
     sysinit_append_shell_profiles '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"'
@@ -118,6 +123,8 @@ module_phpenv() {
         git clone $SYSINIT_MIRROR_PHP_BUILD_GIT_REMOTE ~/.phpenv/plugins/php-build
     fi
 
+    sysinit_append_shell_profiles
+    sysinit_append_shell_profiles '# phpenv'
     sysinit_append_shell_profiles 'export PATH="$HOME/.phpenv/bin:$PATH"'
     sysinit_append_shell_profiles 'eval "$(phpenv init -)"'
 }
@@ -153,10 +160,14 @@ module_proxy() {
         echo 'export all_proxy='
     } >> ~/.unset_proxy
 
+    sysinit_append_shell_profiles
+    sysinit_append_shell_profiles '# proxy'
     sysinit_append_shell_profiles 'source ~/.set_proxy'
 }
 
 module_misc() {
+    sysinit_append_shell_profiles
+    sysinit_append_shell_profiles '# misc'
     sysinit_append_shell_profiles 'alias vi=vim'
     sysinit_append_shell_profiles 'export GPG_TTY=$(tty)'
     sysinit_append_shell_profiles 'export PATH="$HOME/.local/bin:$PATH"'

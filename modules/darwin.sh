@@ -19,6 +19,8 @@ module_darwin_homebrew() {
         rm -rf /tmp/brew-install
     fi
 
+    sysinit_append_shell_profiles
+    sysinit_append_shell_profiles '# darwin_homebrew'
     sysinit_append_shell_profiles "export HOMEBREW_API_DOMAIN=$HOMEBREW_API_DOMAIN"
     sysinit_append_shell_profiles "export HOMEBREW_BOTTLE_DOMAIN=$HOMEBREW_BOTTLE_DOMAIN"
     sysinit_append_shell_profiles "export HOMEBREW_BREW_GIT_REMOTE=$HOMEBREW_BREW_GIT_REMOTE"
@@ -29,6 +31,8 @@ module_darwin_homebrew() {
 module_darwin_homebrew_packages() {
     $SYSINIT_DARWIN_HOMEBREW_PREFIX/bin/brew install coreutils gnu-sed gnu-tar findutils jq wget
 
+    sysinit_append_shell_profiles
+    sysinit_append_shell_profiles '# darwin_homebrew_packages'
     sysinit_append_shell_profiles 'export PATH="'$SYSINIT_DARWIN_HOMEBREW_PREFIX'/opt/coreutils/libexec/gnubin:$PATH"'
     sysinit_append_shell_profiles 'export PATH="'$SYSINIT_DARWIN_HOMEBREW_PREFIX'/opt/gnu-sed/libexec/gnubin:$PATH"'
     sysinit_append_shell_profiles 'export PATH="'$SYSINIT_DARWIN_HOMEBREW_PREFIX'/opt/gnu-tar/libexec/gnubin:$PATH"'
@@ -38,12 +42,16 @@ module_darwin_homebrew_packages() {
 module_darwin_python() {
     $SYSINIT_DARWIN_HOMEBREW_PREFIX/bin/brew install python
 
+    sysinit_append_shell_profiles
+    sysinit_append_shell_profiles '# darwin_python'
     sysinit_append_shell_profiles 'export PATH="'$SYSINIT_DARWIN_HOMEBREW_PREFIX'/opt/python/libexec/bin:$PATH"'
 }
 
 module_darwin_lua() {
     $SYSINIT_DARWIN_HOMEBREW_PREFIX/bin/brew install lua luarocks
 
+    sysinit_append_shell_profiles
+    sysinit_append_shell_profiles '# darwin_lua'
     sysinit_append_shell_profiles 'export PATH="$HOME/.luarocks/bin:$PATH"'
 }
 

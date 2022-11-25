@@ -56,6 +56,8 @@ module_cygwin_lua() {
     cd /tmp
     rm -rf luarocks-3.9.2
 
+    sysinit_append_shell_profiles
+    sysinit_append_shell_profiles '# cygwin_lua'
     sysinit_append_shell_profiles 'export PATH="$HOME/.luarocks/bin:$PATH"'
 }
 
