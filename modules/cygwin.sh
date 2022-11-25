@@ -11,11 +11,7 @@ module_cygwin_apt-cyg() {
         sysinit_read 'cygwin mirror' SYSINIT_MIRROR_CYGWIN
     fi
 
-    if [[ -z $SYSINIT_MIRROR_APT_CYG_GIT_REMOTE ]]; then
-        git clone https://github.com/transcode-open/apt-cyg.git /usr/local/apt-cyg
-    else
-        git clone $SYSINIT_MIRROR_APT_CYG_GIT_REMOTE /usr/local/apt-cyg
-    fi
+    sysinit_git_clone https://github.com/transcode-open/apt-cyg.git /usr/local/apt-cyg SYSINIT_MIRROR_APT_CYG_GIT_REMOTE
 
     ln -s /usr/local/apt-cyg/apt-cyg /usr/local/bin
 

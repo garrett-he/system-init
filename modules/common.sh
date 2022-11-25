@@ -1,9 +1,5 @@
 module_dotfiles() {
-    if [[ -z $SYSINIT_MIRROR_DOTFILES_GIT_REMOTE ]]; then
-        git clone https://github.com/garrett-he/dotfiles.git ~/.dotfiles
-    else
-        git clone $SYSINIT_MIRROR_DOTFILES_GIT_REMOTE ~/.dotfiles
-    fi
+    sysinit_git_clone https://github.com/garrett-he/dotfiles.git ~/.dotfiles SYSINIT_MIRROR_DOTFILES_GIT_REMOTE
 
     cd ~/.dotfiles
     ./install.sh
@@ -31,17 +27,8 @@ module_zsh() {
     sysinit_sed 's#ZSH_THEME="robbyrussell"#ZSH_THEME="powerlevel10k/powerlevel10k"#g' ~/.zshrc
 
     # Install zsh-autosuggestions and zsh-syntax-highlighting
-    if [[ -z $SYSINIT_MIRROR_ZSH_ZSH_AUTOSUGGESTIONS_GIT_REMOTE ]]; then
-        git clone https://github.com/zsh-users/zsh-autosuggestions.git $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-    else
-        git clone $SYSINIT_MIRROR_ZSH_ZSH_AUTOSUGGESTIONS_GIT_REMOTE $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-    fi
-
-    if [[ -z $SYSINIT_MIRROR_ZSH_ZSH_SYNTAX_HIGHLIGHTING_GIT_REMOTE ]]; then
-        git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-    else
-        git clone $SYSINIT_MIRROR_ZSH_ZSH_SYNTAX_HIGHLIGHTING_GIT_REMOTE $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-    fi
+    sysinit_git_clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions SYSINIT_MIRROR_ZSH_ZSH_AUTOSUGGESTIONS_GIT_REMOTE
+    sysinit_git_clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting SYSINIT_MIRROR_ZSH_ZSH_SYNTAX_HIGHLIGHTING_GIT_REMOTE
 
     sysinit_sed 's#plugins=(git)#plugins=(zsh-autosuggestions zsh-syntax-highlighting)#g' ~/.zshrc
 }
@@ -52,7 +39,6 @@ module_python_packages() {
     fi
 
     $SYSINIT_PYTHON_PIP install --upgrade pip
-
     $SYSINIT_PYTHON_PIP install --user --break-system-packages poetry cookiecutter
 
     sysinit_append_shell_profiles 'export PATH="'$(python3 -m site --user-base)/bin':$PATH"'
@@ -72,17 +58,8 @@ module_pyenv() {
 }
 
 module_luaenv() {
-    if [[ -z $SYSINIT_MIRROR_LUAENV_GIT_REMOTE ]]; then
-        git clone https://github.com/cehoffman/luaenv.git ~/.luaenv
-    else
-        git clone $SYSINIT_MIRROR_LUAENV_GIT_REMOTE ~/.luaenv
-    fi
-
-    if [[ -z $SYSINIT_MIRROR_LUA_BUILD_GIT_REMOTE ]]; then
-        git clone https://github.com/cehoffman/lua-build.git ~/.luaenv/plugins/lua-build
-    else
-        git clone $SYSINIT_MIRROR_LUA_BUILD_GIT_REMOTE ~/.luaenv/plugins/lua-build
-    fi
+    sysinit_git_clone https://github.com/cehoffman/luaenv.git ~/.luaenv SYSINIT_MIRROR_LUAENV_GIT_REMOTE
+    sysinit_git_clone https://github.com/cehoffman/lua-build.git ~/.luaenv/plugins/lua-build SYSINIT_MIRROR_LUA_BUILD_GIT_REMOTE
 
     sysinit_append_shell_profiles
     sysinit_append_shell_profiles '# luaenv'
@@ -111,17 +88,8 @@ module_nvm() {
 }
 
 module_phpenv() {
-    if [[ -z $SYSINIT_MIRROR_PHPENV_GIT_REMOTE ]]; then
-        git clone https://github.com/phpenv/phpenv.git ~/.phpenv
-    else
-        git clone $SYSINIT_MIRROR_PHPENV_GIT_REMOTE ~/.phpenv
-    fi
-
-    if [[ -z $SYSINIT_MIRROR_PHP_BUILD_GIT_REMOTE ]]; then
-        git clone https://github.com/php-build/php-build.git ~/.phpenv/plugins/php-build
-    else
-        git clone $SYSINIT_MIRROR_PHP_BUILD_GIT_REMOTE ~/.phpenv/plugins/php-build
-    fi
+    sysinit_git_clone https://github.com/phpenv/phpenv.git ~/.phpenv SYSINIT_MIRROR_PHPENV_GIT_REMOTE
+    sysinit_git_clone https://github.com/php-build/php-build.git ~/.phpenv/plugins/php-build SYSINIT_MIRROR_PHP_BUILD_GIT_REMOTE
 
     sysinit_append_shell_profiles
     sysinit_append_shell_profiles '# phpenv'
@@ -130,11 +98,7 @@ module_phpenv() {
 }
 
 module_powerline-fonts() {
-    if [[ -z $SYSINIT_MIRROR_POWERLINE_FONTS_GIT_REMOTE ]]; then
-        git clone https://github.com/powerline/fonts.git /tmp/powerline-fonts
-    else
-        git clone $SYSINIT_MIRROR_POWERLINE_FONTS_GIT_REMOTE /tmp/powerline-fonts
-    fi
+    sysinit_git_clone https://github.com/powerline/fonts.git /tmp/powerline-fonts SYSINIT_MIRROR_POWERLINE_FONTS_GIT_REMOTE
 
     cd /tmp/powerline-fonts
 
