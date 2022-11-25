@@ -78,7 +78,7 @@ sysinit_delete_line() {
     sysinit_sed "/$2/d" "$1"
 }
 
-sysinit_append_shell_profile() {
+sysinit_append_shell_profiles() {
     if [[ -z $2 ]]; then
         for rcfile in .zshrc .bashrc; do
             echo "$1" >> "$HOME/$rcfile"
