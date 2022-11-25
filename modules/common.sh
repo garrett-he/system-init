@@ -95,11 +95,14 @@ module_nvm() {
         cd ~/.nvm
         git checkout v0.39.4
         source nvm.sh
-
-        sysinit_append_shell_profile 'export NVM_DIR="$HOME/.nvm"'
-        sysinit_append_shell_profile '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"'
-        sysinit_append_shell_profile '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"'
     fi
+
+    sysinit_append_shell_profile 'export NVM_DIR="$HOME/.nvm"'
+    sysinit_append_shell_profile '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"'
+    sysinit_append_shell_profile '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"'
+
+    source ~/.nvm/nvm.sh
+    nvm install lts/hydrogen
 }
 
 module_phpenv() {
