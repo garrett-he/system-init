@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
-SYSINIT_GIT_REMOTE=https://github.com/garrett-he/system-init.git
+if [[ -z $SYSINIT_GIT_REMOTE ]]; then
+    SYSINIT_GIT_REMOTE=https://github.com/garrett-he/system-init.git
+fi
 
-mkdir -p ~/.local/share
+git clone $SYSINIT_GIT_REMOTE /tmp/system-init
+/tmp/system-init/install.sh "$SYSINIT_FLAGS" < /dev/tty
 
-git clone $SYSINIT_GIT_REMOTE ~/.local/share/system-init
-bash ~/.local/share/system-init/install.sh < /dev/tty
+rm -rf /tmp/system-init
