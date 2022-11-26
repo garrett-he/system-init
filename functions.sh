@@ -132,5 +132,5 @@ sysinit_git_clone() {
         git_remote_url=${!3}
     fi
 
-    echo git clone "$git_remote_url" "$2"
+    git clone "$git_remote_url" "$2"
 }
