@@ -1,3 +1,5 @@
+![system-init Logo](./images/system-init-logo.png)
+
 # system-init
 
 This repository contains a set of scripts for initializing systems on multiple
