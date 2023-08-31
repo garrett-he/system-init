@@ -32,3 +32,14 @@ module_zsh() {
 
     file::sed 's#plugins=(git)#plugins=(zsh-autosuggestions zsh-syntax-highlighting)#g' ~/.zshrc
 }
+
+module_python_packages() {
+    if [[ -n $SYSINIT_MIRROR_PYPI_INDEX ]]; then
+        $SYSINIT_PYTHON_PIP config set global.index-url $SYSINIT_MIRROR_PYPI_INDEX
+    fi
+
+    $SYSINIT_PYTHON_PIP install --upgrade pip
+    $SYSINIT_PYTHON_PIP install --user --break-system-packages poetry cookiecutter
+
+    utils::append_profiles 'export PATH="'$(python3 -m site --user-base)/bin':$PATH"'
+}
