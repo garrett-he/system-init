@@ -43,3 +43,16 @@ module_python_packages() {
 
     utils::append_profiles 'export PATH="'$(python3 -m site --user-base)/bin':$PATH"'
 }
+
+module_pyenv() {
+    if [[ -z $SYSINIT_MIRROR_PYENV_GIT_REMOTE ]]; then
+        curl -s -S -L https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash
+    else
+        git clone $SYSINIT_MIRROR_PYENV_GIT_REMOTE ~/.pyenv
+    fi
+    utils::append_profiles
+    utils::append_profiles '# pyenv'
+    utils::append_profiles 'export PYENV_ROOT="$HOME/.pyenv"'
+    utils::append_profiles 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"'
+    utils::append_profiles 'eval "$(pyenv init -)"'
+}
