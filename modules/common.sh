@@ -66,3 +66,22 @@ module_luaenv() {
     utils::append_profiles 'export PATH="$HOME/.luaenv/bin:$PATH"'
     utils::append_profiles 'eval "$(luaenv init -)"'
 }
+
+module_nvm() {
+    if [[ -z $SYSINIT_MIRROR_NVM_GIT_REMOTE ]]; then
+        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+    else
+        git clone $SYSINIT_MIRROR_NVM_GIT_REMOTE ~/.nvm
+        cd ~/.nvm
+        git checkout v0.39.4
+        source nvm.sh
+    fi
+
+    utils::append_profiles
+    utils::append_profiles '# nvm'
+    utils::append_profiles 'export NVM_DIR="$HOME/.nvm"'
+    utils::append_profiles '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"'
+    utils::append_profiles '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"'
+
+    source ~/.nvm/nvm.sh
+}
