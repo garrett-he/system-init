@@ -56,3 +56,13 @@ module_pyenv() {
     utils::append_profiles 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"'
     utils::append_profiles 'eval "$(pyenv init -)"'
 }
+
+module_luaenv() {
+    sysinit::git_clone https://github.com/cehoffman/luaenv.git ~/.luaenv SYSINIT_MIRROR_LUAENV_GIT_REMOTE
+    sysinit::git_clone https://github.com/cehoffman/lua-build.git ~/.luaenv/plugins/lua-build SYSINIT_MIRROR_LUA_BUILD_GIT_REMOTE
+
+    utils::append_profiles
+    utils::append_profiles '# luaenv'
+    utils::append_profiles 'export PATH="$HOME/.luaenv/bin:$PATH"'
+    utils::append_profiles 'eval "$(luaenv init -)"'
+}
