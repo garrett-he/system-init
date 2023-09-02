@@ -127,3 +127,11 @@ module_proxy() {
     sysinit::append_profiles '# proxy'
     sysinit::append_profiles 'source ~/.set_proxy'
 }
+
+module_misc() {
+    sysinit::append_profiles
+    sysinit::append_profiles '# misc'
+    sysinit::append_profiles 'alias vi=vim'
+    sysinit::append_profiles 'export GPG_TTY=$(tty)'
+    sysinit::append_profiles 'export PATH="$HOME/.local/bin:$PATH"'
+}
