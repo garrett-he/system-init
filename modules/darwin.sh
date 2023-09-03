@@ -38,3 +38,11 @@ module_darwin_homebrew_packages() {
     sysinit::append_profiles 'export PATH="'$SYSINIT_DARWIN_HOMEBREW_PREFIX'/opt/gnu-tar/libexec/gnubin:$PATH"'
     sysinit::append_profiles 'export PATH="'$SYSINIT_DARWIN_HOMEBREW_PREFIX'/opt/findutils/libexec/gnubin:$PATH"'
 }
+
+module_darwin_python() {
+    $SYSINIT_DARWIN_HOMEBREW_PREFIX/bin/brew install python
+
+    sysinit::append_profiles
+    sysinit::append_profiles '# darwin_python'
+    sysinit::append_profiles 'export PATH="'$SYSINIT_DARWIN_HOMEBREW_PREFIX'/opt/python/libexec/bin:$PATH"'
+}
