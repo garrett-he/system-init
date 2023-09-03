@@ -46,3 +46,11 @@ module_darwin_python() {
     sysinit::append_profiles '# darwin_python'
     sysinit::append_profiles 'export PATH="'$SYSINIT_DARWIN_HOMEBREW_PREFIX'/opt/python/libexec/bin:$PATH"'
 }
+
+module_darwin_lua() {
+    $SYSINIT_DARWIN_HOMEBREW_PREFIX/bin/brew install lua luarocks
+
+    sysinit::append_profiles
+    sysinit::append_profiles '# darwin_lua'
+    sysinit::append_profiles 'export PATH="$HOME/.luarocks/bin:$PATH"'
+}
