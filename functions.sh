@@ -30,7 +30,7 @@ sysinit::install_module() {
 sysinit::git_clone() {
     local git_remote_url
 
-    if [[ -z $3 ]] || [[ -z ${!3} ]]; then
+    if [[ -z "${3-}" ]] || [[ -z "${!3-}" ]]; then
         git_remote_url=$1
     else
         git_remote_url=${!3}

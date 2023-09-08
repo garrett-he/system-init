@@ -11,7 +11,7 @@ module_darwin_homebrew() {
     export HOMEBREW_CORE_GIT_REMOTE=$SYSINIT_MIRROR_HOMEBREW_CORE_GIT_REMOTE
     export HOMEBREW_PIP_INDEX_URL=$SYSINIT_MIRROR_PYPI_INDEX
 
-    if [[ -z $SYSINIT_MIRROR_HOMEBREW_INSTALL_GIT_REMOTE ]]; then
+    if [[ -z "${SYSINIT_MIRROR_HOMEBREW_INSTALL_GIT_REMOTE-}" ]]; then
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     else
         git clone "$SYSINIT_MIRROR_HOMEBREW_INSTALL_GIT_REMOTE" /tmp/brew-install
@@ -19,40 +19,40 @@ module_darwin_homebrew() {
         rm -rf /tmp/brew-install
     fi
 
-    sysinit::append_profiles
-    sysinit::append_profiles '# darwin_homebrew'
-    sysinit::append_profiles "export HOMEBREW_API_DOMAIN=$HOMEBREW_API_DOMAIN"
-    sysinit::append_profiles "export HOMEBREW_BOTTLE_DOMAIN=$HOMEBREW_BOTTLE_DOMAIN"
-    sysinit::append_profiles "export HOMEBREW_BREW_GIT_REMOTE=$HOMEBREW_BREW_GIT_REMOTE"
-    sysinit::append_profiles "export HOMEBREW_CORE_GIT_REMOTE=$HOMEBREW_CORE_GIT_REMOTE"
-    sysinit::append_profiles "export HOMEBREW_PIP_INDEX_URL=$HOMEBREW_PIP_INDEX_URL"
+    utils::append_profiles
+    utils::append_profiles '# darwin_homebrew'
+    utils::append_profiles "export HOMEBREW_API_DOMAIN=$HOMEBREW_API_DOMAIN"
+    utils::append_profiles "export HOMEBREW_BOTTLE_DOMAIN=$HOMEBREW_BOTTLE_DOMAIN"
+    utils::append_profiles "export HOMEBREW_BREW_GIT_REMOTE=$HOMEBREW_BREW_GIT_REMOTE"
+    utils::append_profiles "export HOMEBREW_CORE_GIT_REMOTE=$HOMEBREW_CORE_GIT_REMOTE"
+    utils::append_profiles "export HOMEBREW_PIP_INDEX_URL=$HOMEBREW_PIP_INDEX_URL"
 }
 
 module_darwin_homebrew_packages() {
     $SYSINIT_DARWIN_HOMEBREW_PREFIX/bin/brew install coreutils gnu-sed gnu-tar findutils jq wget
 
-    sysinit::append_profiles
-    sysinit::append_profiles '# darwin_homebrew_packages'
-    sysinit::append_profiles 'export PATH="'$SYSINIT_DARWIN_HOMEBREW_PREFIX'/opt/coreutils/libexec/gnubin:$PATH"'
-    sysinit::append_profiles 'export PATH="'$SYSINIT_DARWIN_HOMEBREW_PREFIX'/opt/gnu-sed/libexec/gnubin:$PATH"'
-    sysinit::append_profiles 'export PATH="'$SYSINIT_DARWIN_HOMEBREW_PREFIX'/opt/gnu-tar/libexec/gnubin:$PATH"'
-    sysinit::append_profiles 'export PATH="'$SYSINIT_DARWIN_HOMEBREW_PREFIX'/opt/findutils/libexec/gnubin:$PATH"'
+    utils::append_profiles
+    utils::append_profiles '# darwin_homebrew_packages'
+    utils::append_profiles 'export PATH="'$SYSINIT_DARWIN_HOMEBREW_PREFIX'/opt/coreutils/libexec/gnubin:$PATH"'
+    utils::append_profiles 'export PATH="'$SYSINIT_DARWIN_HOMEBREW_PREFIX'/opt/gnu-sed/libexec/gnubin:$PATH"'
+    utils::append_profiles 'export PATH="'$SYSINIT_DARWIN_HOMEBREW_PREFIX'/opt/gnu-tar/libexec/gnubin:$PATH"'
+    utils::append_profiles 'export PATH="'$SYSINIT_DARWIN_HOMEBREW_PREFIX'/opt/findutils/libexec/gnubin:$PATH"'
 }
 
 module_darwin_python() {
     $SYSINIT_DARWIN_HOMEBREW_PREFIX/bin/brew install python
 
-    sysinit::append_profiles
-    sysinit::append_profiles '# darwin_python'
-    sysinit::append_profiles 'export PATH="'$SYSINIT_DARWIN_HOMEBREW_PREFIX'/opt/python/libexec/bin:$PATH"'
+    utils::append_profiles
+    utils::append_profiles '# darwin_python'
+    utils::append_profiles 'export PATH="'$SYSINIT_DARWIN_HOMEBREW_PREFIX'/opt/python/libexec/bin:$PATH"'
 }
 
 module_darwin_lua() {
     $SYSINIT_DARWIN_HOMEBREW_PREFIX/bin/brew install lua luarocks
 
-    sysinit::append_profiles
-    sysinit::append_profiles '# darwin_lua'
-    sysinit::append_profiles 'export PATH="$HOME/.luarocks/bin:$PATH"'
+    utils::append_profiles
+    utils::append_profiles '# darwin_lua'
+    utils::append_profiles 'export PATH="$HOME/.luarocks/bin:$PATH"'
 }
 
 module_darwin_php() {

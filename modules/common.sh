@@ -1,13 +1,15 @@
 module_dotfiles() {
-    sysinit::git_clone file:///home/garrett/Downloads/dotfiles ~/.dotfiles SYSINIT_MIRROR_DOTFILES_GIT_REMOTE
+    sysinit::git_clone https://github.com/garrett-he/dotfiles.git ~/.dotfiles SYSINIT_MIRROR_DOTFILES_GIT_REMOTE
 
     cd ~/.dotfiles
+    git submodule init
+    git submodule update
     ./install.sh
 }
 
 module_zsh() {
     # Install ohmyzsh
-    if [[ -z $SYSINIT_MIRROR_ZSH_OHMYZSH_GIT_REMOTE ]]; then
+    if [[ -z "${SYSINIT_MIRROR_ZSH_OHMYZSH_GIT_REMOTE-}" ]]; then
         sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
     else
         git clone "$SYSINIT_MIRROR_ZSH_OHMYZSH_GIT_REMOTE" /tmp/ohmyzsh
@@ -18,7 +20,7 @@ module_zsh() {
     fi
 
     # Install powerlevel10k
-    if [[ -z $SYSINIT_MIRROR_ZSH_POWERLEVEL10K_GIT_REMOTE ]]; then
+    if [[ -z "${SYSINIT_MIRROR_ZSH_POWERLEVEL10K_GIT_REMOTE-}" ]]; then
         git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $HOME/.oh-my-zsh/custom/themes/powerlevel10k
     else
         git clone --depth=1 $SYSINIT_MIRROR_ZSH_POWERLEVEL10K_GIT_REMOTE $HOME/.oh-my-zsh/custom/themes/powerlevel10k
@@ -34,7 +36,7 @@ module_zsh() {
 }
 
 module_python_packages() {
-    if [[ -n $SYSINIT_MIRROR_PYPI_INDEX ]]; then
+    if [[ -n "${SYSINIT_MIRROR_PYPI_INDEX-}" ]]; then
         $SYSINIT_PYTHON_PIP config set global.index-url $SYSINIT_MIRROR_PYPI_INDEX
     fi
 
@@ -45,7 +47,7 @@ module_python_packages() {
 }
 
 module_pyenv() {
-    if [[ -z $SYSINIT_MIRROR_PYENV_GIT_REMOTE ]]; then
+    if [[ -z "${SYSINIT_MIRROR_PYENV_GIT_REMOTE-}" ]]; then
         curl -s -S -L https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash
     else
         git clone $SYSINIT_MIRROR_PYENV_GIT_REMOTE ~/.pyenv
@@ -68,7 +70,7 @@ module_luaenv() {
 }
 
 module_nvm() {
-    if [[ -z $SYSINIT_MIRROR_NVM_GIT_REMOTE ]]; then
+    if [[ -z "${SYSINIT_MIRROR_NVM_GIT_REMOTE-}" ]]; then
         curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
     else
         git clone $SYSINIT_MIRROR_NVM_GIT_REMOTE ~/.nvm
@@ -123,15 +125,15 @@ module_proxy() {
         echo 'export all_proxy='
     } >> ~/.unset_proxy
 
-    sysinit::append_profiles
-    sysinit::append_profiles '# proxy'
-    sysinit::append_profiles 'source ~/.set_proxy'
+    utils::append_profiles
+    utils::append_profiles '# proxy'
+    utils::append_profiles 'source ~/.set_proxy'
 }
 
 module_misc() {
-    sysinit::append_profiles
-    sysinit::append_profiles '# misc'
-    sysinit::append_profiles 'alias vi=vim'
-    sysinit::append_profiles 'export GPG_TTY=$(tty)'
-    sysinit::append_profiles 'export PATH="$HOME/.local/bin:$PATH"'
+    utils::append_profiles
+    utils::append_profiles '# misc'
+    utils::append_profiles 'alias vi=vim'
+    utils::append_profiles 'export GPG_TTY=$(tty)'
+    utils::append_profiles 'export PATH="$HOME/.local/bin:$PATH"'
 }

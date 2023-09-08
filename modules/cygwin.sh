@@ -7,7 +7,7 @@ module_cygwin_skel() {
 }
 
 module_cygwin_apt-cyg() {
-    if [[ -z $SYSINIT_MIRROR_CYGWIN ]]; then
+    if [[ -z "${SYSINIT_MIRROR_CYGWIN-}" ]]; then
         utils::read 'cygwin mirror' SYSINIT_MIRROR_CYGWIN
     fi
 
@@ -52,9 +52,9 @@ module_cygwin_lua() {
     cd /tmp
     rm -rf luarocks-3.9.2
 
-    sysinit::append_profiles
-    sysinit::append_profiles '# cygwin_lua'
-    sysinit::append_profiles 'export PATH="$HOME/.luarocks/bin:$PATH"'
+    utils::append_profiles
+    utils::append_profiles '# cygwin_lua'
+    utils::append_profiles 'export PATH="$HOME/.luarocks/bin:$PATH"'
 }
 
 module_cygwin_php() {

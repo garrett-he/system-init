@@ -59,15 +59,17 @@ sysinit_prepare() {
     fi
 
     # Load mirrors
-    for mirror in $SYSINIT_MIRRORS; do
-        local mirror_dir="$SYSINIT_ROOT/mirrors/$mirror"
+    if [[ -n "${SYSINIT_MIRRORS-}" ]]; then
+        for mirror in $SYSINIT_MIRRORS; do
+            local mirror_dir="$SYSINIT_ROOT/mirrors/$mirror"
 
-        if [[ -d $mirror_dir ]]; then
-            for mirror_file in "$mirror_dir"/*; do
-                source "$mirror_file"
-            done
-        fi
-    done
+            if [[ -d $mirror_dir ]]; then
+                for mirror_file in "$mirror_dir"/*; do
+                    source "$mirror_file"
+                done
+            fi
+        done
+    fi
 
     # Load configurations
     source "$SYSINIT_ROOT/config/$ostype.conf"
@@ -80,7 +82,7 @@ sysinit_install() {
             continue
         fi
 
-        if sysinit::confirm "Install module: $module"; then
+        if utils::confirm "Install module: $module"; then
             echo
             logging::info "Installing module: $module"
             if ! sysinit::install_module "$module"; then
