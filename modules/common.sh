@@ -103,7 +103,7 @@ module_powerline-fonts() {
 
     cd /tmp/powerline-fonts
 
-    if [[ "$sysinit_ostype" == "cygwin" ]]; then
+    if [[ $(os::type) == "cygwin" ]]; then
         powershell -File install.ps1
     else
         ./install.sh
