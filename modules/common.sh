@@ -84,7 +84,6 @@ module_nvm() {
     sysinit_append_shell_profiles '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"'
 
     source ~/.nvm/nvm.sh
-    nvm install lts/hydrogen
 }
 
 module_phpenv() {

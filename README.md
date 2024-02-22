@@ -11,23 +11,23 @@ operating systems.
 terminal:
 
 ```
-$ curl -fsSL https://raw.githubusercontent.com/garrett-he/system-init/main/remote-install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/garrett-he/system-init/main/remote-install.sh | bash
 ```
 
 If you are installing through a mirror repository, you can set the environment
 variable `SYSINIT_GIT_REMOTE`, then execute the above command:
 
 ```
-$ SYSINIT_GIT_REMOTE=https://url/to/your/repo.git curl -fsSL https://url/to/your/repo/main/remote-install.sh | bash
+SYSINIT_GIT_REMOTE=https://url/to/your/repo.git curl -fsSL https://url/to/your/repo/main/remote-install.sh | bash
 ```
 
 Alternatively, you can clone this repository on your local machine and install
 it manually:
 
 ```
-$ git clone https://github.com/garrett-he/system-init.git /tmp/system-init
-$ bash /tmp/system-init
-$ rm -rf /tmp/system-init
+git clone https://github.com/garrett-he/system-init.git /tmp/system-init
+bash /tmp/system-init
+rm -rf /tmp/system-init
 ```
 
 ## Configurations
@@ -51,14 +51,14 @@ methods:
 1. Pass option `-m MIRRORS`, this can only be used during local installation:
 
    ```
-   $ ./install.sh -m "mirror1 mirror2"
+   ./install.sh -m "mirror1 mirror2"
    ```
 
 2. By using the environment variable `SYSINIT_MIRRORS`, usually used during
    remote installation.
 
    ```
-   $ SYSINIT_MIRRORS="mirror1 mirror2" curl -fsSL https://raw.githubusercontent.com/garrett-he/system-init/main/remote-install.sh | bash
+   SYSINIT_MIRRORS="mirror1 mirror2" curl -fsSL https://raw.githubusercontent.com/garrett-he/system-init/main/remote-install.sh | bash
    ```
 
 There are some pre-defined mirror bundles in directory `/mirrors`. You can use
@@ -67,7 +67,7 @@ them by any of the above methods.
 Example, install system-init with mirrors from tsinghua and ustc:
 
 ```
-$ ./install -m "tsinghua ustc"
+./install -m "tsinghua ustc"
 ```
 
 Of course, you can also define mirror sources by yourself.

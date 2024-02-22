@@ -40,7 +40,7 @@ sysinit_read() {
 }
 
 sysinit_confirm() {
-    read -n1 -r -p "$(echo -e "\033[1;34m$1?\033[0m [y/N]: ")"
+    read -r -p "$(echo -e "\033[1;34m$1?\033[0m [y/N]: ")"
 
     if [[ "$REPLY" = "y" ]] || [[ "$REPLY" = "Y" ]]; then
         return 0
