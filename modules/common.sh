@@ -21,3 +21,10 @@ module_zsh() {
 
     file::sed 's#plugins=(git)#plugins=(zsh-autosuggestions zsh-syntax-highlighting)#g' ~/.zshrc
 }
+
+module_python_packages() {
+    $SYSINIT_PYTHON_PIP install --upgrade pip
+    $SYSINIT_PYTHON_PIP install --user --break-system-packages poetry cookiecutter
+
+    utils::append_profiles 'export PATH="'$(python3 -m site --user-base)/bin':$PATH"'
+}
