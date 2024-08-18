@@ -1,5 +1,5 @@
 module_dotfiles() {
-    sysinit::git_clone https://github.com/garrett-he/dotfiles.git ~/.dotfiles
+    sysinit::git_clone https://github.com/garrett-he/dotfiles.git ~/.dotfiles SYSINIT_MIRROR_DOTFILES_GIT_REMOTE
 
     cd ~/.dotfiles
     git submodule init
@@ -9,20 +9,37 @@ module_dotfiles() {
 
 module_zsh() {
     # Install ohmyzsh
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    if [[ -z "${SYSINIT_MIRROR_ZSH_OHMYZSH_GIT_REMOTE-}" ]]; then
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    else
+        git clone "$SYSINIT_MIRROR_ZSH_OHMYZSH_GIT_REMOTE" /tmp/ohmyzsh
+        cd /tmp/ohmyzsh/tools
+        REMOTE=$SYSINIT_MIRROR_ZSH_OHMYZSH_GIT_REMOTE sh install.sh --unattended
+
+        rm -rf /tmp/ohmyzsh
+    fi
 
     # Install powerlevel10k
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $HOME/.oh-my-zsh/custom/themes/powerlevel10k
+    if [[ -z "${SYSINIT_MIRROR_ZSH_POWERLEVEL10K_GIT_REMOTE-}" ]]; then
+        git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $HOME/.oh-my-zsh/custom/themes/powerlevel10k
+    else
+        git clone --depth=1 $SYSINIT_MIRROR_ZSH_POWERLEVEL10K_GIT_REMOTE $HOME/.oh-my-zsh/custom/themes/powerlevel10k
+    fi
+
     file::sed 's#ZSH_THEME="robbyrussell"#ZSH_THEME="powerlevel10k/powerlevel10k"#g' ~/.zshrc
 
     # Install zsh-autosuggestions and zsh-syntax-highlighting
-    sysinit::git_clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-    sysinit::git_clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+    sysinit::git_clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions SYSINIT_MIRROR_ZSH_ZSH_AUTOSUGGESTIONS_GIT_REMOTE
+    sysinit::git_clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting SYSINIT_MIRROR_ZSH_ZSH_SYNTAX_HIGHLIGHTING_GIT_REMOTE
 
     file::sed 's#plugins=(git)#plugins=(zsh-autosuggestions zsh-syntax-highlighting)#g' ~/.zshrc
 }
 
 module_python_packages() {
+    if [[ -n "${SYSINIT_MIRROR_PYPI_INDEX-}" ]]; then
+        $SYSINIT_PYTHON_PIP config set global.index-url $SYSINIT_MIRROR_PYPI_INDEX
+    fi
+
     $SYSINIT_PYTHON_PIP install --upgrade pip
     $SYSINIT_PYTHON_PIP install --user --break-system-packages poetry cookiecutter
 
@@ -30,8 +47,11 @@ module_python_packages() {
 }
 
 module_pyenv() {
-    curl -s -S -L https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash
-
+    if [[ -z "${SYSINIT_MIRROR_PYENV_GIT_REMOTE-}" ]]; then
+        curl -s -S -L https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash
+    else
+        git clone $SYSINIT_MIRROR_PYENV_GIT_REMOTE ~/.pyenv
+    fi
     utils::append_profiles
     utils::append_profiles '# pyenv'
     utils::append_profiles 'export PYENV_ROOT="$HOME/.pyenv"'
@@ -40,8 +60,8 @@ module_pyenv() {
 }
 
 module_luaenv() {
-    sysinit::git_clone https://github.com/cehoffman/luaenv.git ~/.luaenv
-    sysinit::git_clone https://github.com/cehoffman/lua-build.git ~/.luaenv/plugins/lua-build
+    sysinit::git_clone https://github.com/cehoffman/luaenv.git ~/.luaenv SYSINIT_MIRROR_LUAENV_GIT_REMOTE
+    sysinit::git_clone https://github.com/cehoffman/lua-build.git ~/.luaenv/plugins/lua-build SYSINIT_MIRROR_LUA_BUILD_GIT_REMOTE
 
     utils::append_profiles
     utils::append_profiles '# luaenv'
@@ -50,7 +70,14 @@ module_luaenv() {
 }
 
 module_nvm() {
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+    if [[ -z "${SYSINIT_MIRROR_NVM_GIT_REMOTE-}" ]]; then
+        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+    else
+        git clone $SYSINIT_MIRROR_NVM_GIT_REMOTE ~/.nvm
+        cd ~/.nvm
+        git checkout v0.39.4
+        source nvm.sh
+    fi
 
     utils::append_profiles
     utils::append_profiles '# nvm'
@@ -62,8 +89,8 @@ module_nvm() {
 }
 
 module_phpenv() {
-    sysinit::git_clone https://github.com/phpenv/phpenv.git ~/.phpenv
-    sysinit::git_clone https://github.com/php-build/php-build.git ~/.phpenv/plugins/php-build
+    sysinit::git_clone https://github.com/phpenv/phpenv.git ~/.phpenv SYSINIT_MIRROR_PHPENV_GIT_REMOTE
+    sysinit::git_clone https://github.com/php-build/php-build.git ~/.phpenv/plugins/php-build SYSINIT_MIRROR_PHP_BUILD_GIT_REMOTE
 
     utils::append_profiles
     utils::append_profiles '# phpenv'
@@ -72,7 +99,7 @@ module_phpenv() {
 }
 
 module_powerline-fonts() {
-    sysinit::git_clone https://github.com/powerline/fonts.git /tmp/powerline-fonts
+    sysinit::git_clone https://github.com/powerline/fonts.git /tmp/powerline-fonts SYSINIT_MIRROR_POWERLINE_FONTS_GIT_REMOTE
 
     cd /tmp/powerline-fonts
 

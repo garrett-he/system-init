@@ -26,8 +26,10 @@ sysinit_announce() {
 }
 
 sysinit_help() {
-    echo 'usage: install.sh'
+    echo 'usage: install.sh [-m MIRRORS]'
     echo 'A set of scripts for initializing systems on multiple operating systems.'
+    echo
+    echo '  -m MIRRORS        mirrors to use during installation'
 }
 
 sysinit_prepare() {
@@ -56,6 +58,19 @@ sysinit_prepare() {
         source "$module_dir/$ostype".sh
     fi
 
+    # Load mirrors
+    if [[ -n "${SYSINIT_MIRRORS-}" ]]; then
+        for mirror in $SYSINIT_MIRRORS; do
+            local mirror_dir="$SYSINIT_ROOT/mirrors/$mirror"
+
+            if [[ -d $mirror_dir ]]; then
+                for mirror_file in "$mirror_dir"/*; do
+                    source "$mirror_file"
+                done
+            fi
+        done
+    fi
+
     # Load configurations
     source "$SYSINIT_ROOT/config/$ostype.conf"
 }
@@ -79,9 +94,10 @@ sysinit_install() {
 }
 
 main() {
-    while getopts 'h:' opt; do
+    while getopts 'hm:' opt; do
         case $opt in
             h) sysinit_help && exit 0 ;;
+            m) SYSINIT_MIRRORS="$OPTARG" ;;
             *) ;;
         esac
     done
