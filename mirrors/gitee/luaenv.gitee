@@ -1,0 +1,2 @@
+SYSINIT_MIRROR_LUAENV_GIT_REMOTE=https://gitee.com/garrett-he/luaenv.git
+SYSINIT_MIRROR_LUA_BUILD_GIT_REMOTE=https://gitee.com/garrett-he/lua-build.git
